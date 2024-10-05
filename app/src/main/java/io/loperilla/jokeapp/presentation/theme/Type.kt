@@ -1,4 +1,4 @@
-package io.loperilla.jokeapp.ui.theme
+package io.loperilla.jokeapp.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
