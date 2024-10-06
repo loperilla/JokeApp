@@ -1,7 +1,6 @@
 package io.loperilla.jokeapp.presentation.navigator.routes
 
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Serializer
 
 /*****
  * Project: JokeApp

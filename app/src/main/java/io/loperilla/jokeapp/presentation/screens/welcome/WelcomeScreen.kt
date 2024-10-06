@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import io.loperilla.jokeapp.presentation.theme.JokePreview
 
 /*****
  * Project: JokeApp
@@ -34,5 +35,12 @@ fun WelcomeScreen(
             Text("Go to Joke Form")
         }
     }
+}
 
+@JokePreview
+@Composable
+private fun WelcomeScreenPreview() {
+    WelcomeScreen(
+        onEvent = {}
+    )
 }

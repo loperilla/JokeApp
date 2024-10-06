@@ -51,7 +51,6 @@ fun AppNavigation(
     ) {
         composable<Destination.Welcome> {
             val viewModel = koinViewModel<WelcomeViewModel>()
-            val state by viewModel.stateFlow.collectAsStateWithLifecycle()
             WelcomeScreen(
                 viewModel::onEvent
             )
@@ -59,7 +58,9 @@ fun AppNavigation(
 
         composable<Destination.Form> {
             val viewModel = koinViewModel<JokeFormViewModel>()
+            val state by viewModel.stateFlow.collectAsStateWithLifecycle()
             JokeFormScreen(
+                state,
                 viewModel::onEvent
             )
         }
