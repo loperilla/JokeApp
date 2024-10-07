@@ -8,10 +8,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import io.loperilla.jokeapp.domain.model.FormData
 import io.loperilla.jokeapp.presentation.navigator.Navigator
 import io.loperilla.jokeapp.presentation.navigator.ObserveAsEvents
 import io.loperilla.jokeapp.presentation.navigator.routes.Destination
 import io.loperilla.jokeapp.presentation.navigator.routes.NavigationAction
+import io.loperilla.jokeapp.presentation.navigator.type.FormDataNavType
 import io.loperilla.jokeapp.presentation.screens.jokeform.JokeFormScreen
 import io.loperilla.jokeapp.presentation.screens.jokeform.JokeFormViewModel
 import io.loperilla.jokeapp.presentation.screens.jokeresult.JokeResultScreen
@@ -19,6 +22,8 @@ import io.loperilla.jokeapp.presentation.screens.jokeresult.JokeResultViewModel
 import io.loperilla.jokeapp.presentation.screens.welcome.WelcomeScreen
 import io.loperilla.jokeapp.presentation.screens.welcome.WelcomeViewModel
 import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
+import kotlin.reflect.typeOf
 
 /*****
  * Project: JokeApp
@@ -65,9 +70,19 @@ fun AppNavigation(
             )
         }
 
-        composable<Destination.Joke> {
-            val viewModel = koinViewModel<JokeResultViewModel>()
+        composable<Destination.Joke>(
+            typeMap = mapOf(
+                typeOf<FormData>() to FormDataNavType
+            )
+        ) {
+            val formData = it.toRoute<Destination.Joke>().formData
+            val viewModel = koinViewModel<JokeResultViewModel>(
+                parameters = { parametersOf(formData) }
+            )
+
+            val state by viewModel.stateFlow.collectAsStateWithLifecycle()
             JokeResultScreen(
+                state,
                 viewModel::onEvent
             )
         }

@@ -1,5 +1,8 @@
 package io.loperilla.jokeapp.domain.usecase.di
 
+import io.loperilla.jokeapp.domain.usecase.GetCategoryListUseCase
+import io.loperilla.jokeapp.domain.usecase.GetFlagsUseCase
+import io.loperilla.jokeapp.domain.usecase.GetLanguageUseCase
 import org.koin.dsl.module
 
 /*****
@@ -10,4 +13,7 @@ import org.koin.dsl.module
  */
 
 val useCaseModule = module {
+    factory { GetLanguageUseCase(get()) }
+    factory { GetFlagsUseCase(get()) }
+    factory { GetCategoryListUseCase(get()) }
 }

@@ -2,6 +2,7 @@ package io.loperilla.jokeapp
 
 import android.app.Application
 import io.loperilla.jokeapp.data.network.di.networkModule
+import io.loperilla.jokeapp.domain.repository.di.repositoryModule
 import io.loperilla.jokeapp.domain.usecase.di.useCaseModule
 import io.loperilla.jokeapp.presentation.di.presentationModule
 import org.koin.android.ext.koin.androidContext
@@ -20,12 +21,12 @@ class JokeApp: Application() {
             androidContext(this@JokeApp)
             modules(
                 networkModule,
+                repositoryModule,
                 useCaseModule
             )
             modules(
                 presentationModule
             )
-            // https://sv443.net/jokeapi/v2/
         }
     }
 }

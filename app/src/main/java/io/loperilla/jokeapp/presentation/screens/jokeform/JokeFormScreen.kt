@@ -1,6 +1,5 @@
 package io.loperilla.jokeapp.presentation.screens.jokeform
 
-import android.icu.text.CaseMap.Title
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -33,9 +32,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import io.loperilla.jokeapp.domain.model.selectorLanguageList
+import io.loperilla.jokeapp.domain.model.Language
 import io.loperilla.jokeapp.presentation.theme.JokePreview
 
 /*****
@@ -86,14 +84,14 @@ fun JokeFormScreen(
                     .padding(bottom = 8.dp)
             )
             CategorySelector(
-                categoriesSelected = state.categoriesSelected,
+                state = state,
                 onEvent = onEvent,
                 modifier = Modifier
                     .padding(bottom = 8.dp)
             )
 
             FlagSelector(
-                flagList = state.flagsSelected,
+                state = state,
                 onEvent = onEvent,
                 modifier = Modifier
                     .padding(bottom = 8.dp)
@@ -110,6 +108,7 @@ fun JokeFormScreen(
                     .weight(1f)
             )
             Button(
+                enabled = state.languageSelected != null,
                 onClick = {
                     onEvent(JokeFormEvent.NavigateToJokeResult)
                 },
@@ -125,7 +124,7 @@ fun JokeFormScreen(
 
 @Composable
 fun FlagSelector(
-    flagList: List<Flag>,
+    state: JokeFormState,
     onEvent: (JokeFormEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -140,12 +139,12 @@ fun FlagSelector(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            items(Flag.entries.toList().size) {
+            items(state.flagList.size) {
                 ItemChip(
-                    text = Flag.entries.toList()[it].name,
-                    isSelected = flagList.contains(Flag.entries.toList()[it]),
+                    text = state.flagList[it].name,
+                    isSelected = state.flagsSelected.contains(state.flagList[it]),
                     onClick = {
-                        onEvent(JokeFormEvent.SelectFlag(Flag.entries.toList()[it]))
+                        onEvent(JokeFormEvent.SelectFlag(state.flagList[it]))
                     }
                 )
             }
@@ -173,7 +172,7 @@ fun LanguageSelector(
                 .fillMaxWidth()
         ) {
             Text(
-                text = "Selecciona el idioma del chiste",
+                text = "Selecciona el idioma del chiste: ${state.languageSelected?.name.orEmpty()}",
             )
             IconButton(onClick = { onEvent(JokeFormEvent.ChangeChipVisibility) }) {
                 Icon(
@@ -190,17 +189,11 @@ fun LanguageSelector(
                 onEvent(JokeFormEvent.HideLanguageSelector)
             }
         ) {
-            state.selectorLanguageList.forEach { language ->
+            state.languageList.forEach { language ->
                 DropdownMenuItem(
                     text = { Text(text = language.name) },
                     onClick = {
                         onEvent(JokeFormEvent.SelectLanguage(language))
-                    },
-                    leadingIcon = {
-                        Icon(
-                            painter = painterResource(language.icon),
-                            contentDescription = null
-                        )
                     }
                 )
             }
@@ -210,7 +203,7 @@ fun LanguageSelector(
 
 @Composable
 fun CategorySelector(
-    categoriesSelected: List<Category>,
+    state: JokeFormState,
     onEvent: (JokeFormEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -225,12 +218,12 @@ fun CategorySelector(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            items(Category.entries.toList().size) {
+            items(state.categoryList.size) {
                 ItemChip(
-                    text = Category.entries.toList()[it].name,
-                    isSelected = categoriesSelected.contains(Category.entries.toList()[it]),
+                    text = state.categoryList[it].resolvedName,
+                    isSelected = state.categoriesSelected.contains(state.categoryList[it]),
                     onClick = {
-                        onEvent(JokeFormEvent.SelectCategory(Category.entries.toList()[it]))
+                        onEvent(JokeFormEvent.SelectCategory(state.categoryList[it]))
                     }
                 )
             }
@@ -287,7 +280,7 @@ private fun JokeFormPreview() {
     JokeFormScreen(
         state = JokeFormState(
             languageSelectorVisibility = true,
-            selectorLanguageList = selectorLanguageList
+            languageSelected = Language("es", "Español")
         ),
         onEvent = {}
     )

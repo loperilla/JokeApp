@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import io.loperilla.jokeapp.domain.model.FormData
 
 /*****
  * Project: JokeApp
@@ -18,6 +19,7 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun JokeResultScreen(
+    state: FormData,
     onEvent: (event: JokeResultEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -27,6 +29,10 @@ fun JokeResultScreen(
         modifier = modifier
             .fillMaxSize()
     ) {
+        Text(text = "Categories: ${state.categories}")
+        Text(text = "Language: ${state.language}")
+        Text(text = "Flags:${state.flags}")
+        Text(text = "Amount: ${state.amount}")
         Text(text = "Joke Result Screen")
         Button(onClick = {
             onEvent(JokeResultEvent.BackToWelcome)

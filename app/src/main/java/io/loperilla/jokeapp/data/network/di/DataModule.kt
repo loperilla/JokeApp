@@ -13,6 +13,8 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import io.ktor.client.plugins.logging.Logger
+import io.loperilla.jokeapp.data.network.api.JokeApi
+import io.loperilla.jokeapp.data.network.impl.JokeApiImpl
 import org.koin.dsl.module
 
 /*****
@@ -65,4 +67,6 @@ val networkModule = module {
             }
         }
     }
+
+    single<JokeApi> { JokeApiImpl(get(), get()) }
 }

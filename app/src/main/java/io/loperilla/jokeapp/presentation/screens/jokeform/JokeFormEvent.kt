@@ -1,6 +1,8 @@
 package io.loperilla.jokeapp.presentation.screens.jokeform
 
-import io.loperilla.jokeapp.domain.model.SelectorLanguage
+import io.loperilla.jokeapp.domain.model.Category
+import io.loperilla.jokeapp.domain.model.Flag
+import io.loperilla.jokeapp.domain.model.Language
 
 /*****
  * Project: JokeApp
@@ -13,7 +15,7 @@ sealed class JokeFormEvent {
     data object BackToWelcome : JokeFormEvent()
     data object HideLanguageSelector : JokeFormEvent()
     data object ChangeChipVisibility : JokeFormEvent()
-    data class SelectLanguage(val language: SelectorLanguage) : JokeFormEvent()
+    data class SelectLanguage(val language: Language) : JokeFormEvent()
     data class SelectCategory(val category: Category) : JokeFormEvent()
     data class ChangeJokeAmount(val amount: Int) : JokeFormEvent()
     data class SelectFlag(val flag: Flag) : JokeFormEvent()

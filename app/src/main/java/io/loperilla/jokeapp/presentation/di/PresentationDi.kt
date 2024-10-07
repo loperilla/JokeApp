@@ -20,8 +20,20 @@ private val navigatorModule = module {
 
 private val viewModelModule = module {
     viewModel { WelcomeViewModel(get()) }
-    viewModel { JokeFormViewModel(get()) }
-    viewModel { JokeResultViewModel(get()) }
+    viewModel {
+        JokeFormViewModel(
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }
+    viewModel { parameter ->
+        JokeResultViewModel(
+            parameter.get(),
+            get()
+        )
+    }
 }
 
 val presentationModule = listOf(

@@ -1,5 +1,6 @@
 package io.loperilla.jokeapp.presentation.navigator.routes
 
+import io.loperilla.jokeapp.domain.model.FormData
 import kotlinx.serialization.Serializable
 
 /*****
@@ -14,6 +15,7 @@ sealed interface Destination {
     @Serializable
     data object Form: Destination
     @Serializable
-    data object Joke: Destination
-
+    data class Joke(
+        val formData: FormData
+    ): Destination
 }

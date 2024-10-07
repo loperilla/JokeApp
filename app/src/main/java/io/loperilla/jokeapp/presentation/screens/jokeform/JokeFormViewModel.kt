@@ -2,7 +2,13 @@ package io.loperilla.jokeapp.presentation.screens.jokeform
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.loperilla.jokeapp.domain.model.selectorLanguageList
+import io.loperilla.jokeapp.domain.model.Category
+import io.loperilla.jokeapp.domain.model.Flag
+import io.loperilla.jokeapp.domain.model.FormData
+import io.loperilla.jokeapp.domain.model.toForm
+import io.loperilla.jokeapp.domain.usecase.GetCategoryListUseCase
+import io.loperilla.jokeapp.domain.usecase.GetFlagsUseCase
+import io.loperilla.jokeapp.domain.usecase.GetLanguageUseCase
 import io.loperilla.jokeapp.presentation.navigator.Navigator
 import io.loperilla.jokeapp.presentation.navigator.routes.Destination
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,14 +27,18 @@ import kotlinx.coroutines.launch
  */
 class JokeFormViewModel(
     private val navigator: Navigator,
+    private val getLanguageUseCase: GetLanguageUseCase,
+    private val getCategoryListUseCase: GetCategoryListUseCase,
+    private val getFlagsUseCase: GetFlagsUseCase
 ): ViewModel() {
     private var _stateFlow: MutableStateFlow<JokeFormState> = MutableStateFlow(JokeFormState())
     val stateFlow: StateFlow<JokeFormState> = _stateFlow
         .onStart {
             _stateFlow.update {
                 it.copy(
-                    selectorLanguageList = selectorLanguageList,
-                    languageSelected = selectorLanguageList.first()
+                    languageList = getLanguageUseCase(),
+                    flagList = getFlagsUseCase(),
+                    categoryList = getCategoryListUseCase(),
                 )
             }
         }.stateIn(
@@ -41,7 +51,18 @@ class JokeFormViewModel(
     fun onEvent(event: JokeFormEvent) = viewModelScope.launch {
         when (event) {
             JokeFormEvent.NavigateToJokeResult -> navigator.navigate(
-                Destination.Joke,
+                Destination.Joke(
+                    FormData(
+                       language = stateFlow.value.languageSelected!!.code,
+                       categories = stateFlow.value.categoriesSelected.joinToString(",") {
+                           it.alias
+                       },
+                       flags = stateFlow.value.flagsSelected.joinToString(",") {
+                           it.name
+                       },
+                       amount = stateFlow.value.jokeAmount
+                    )
+                ),
                 navOptions = {
                     popUpTo(Destination.Form) {
                         inclusive = true
@@ -65,6 +86,7 @@ class JokeFormViewModel(
                     it.copy(categoriesSelected = newList)
                 }
             }
+
             is JokeFormEvent.SelectFlag -> {
                 val newList: List<Flag> = if (stateFlow.value.flagsSelected.contains(event.flag)) {
                     stateFlow.value.flagsSelected - event.flag
@@ -75,6 +97,7 @@ class JokeFormViewModel(
                     it.copy(flagsSelected = newList)
                 }
             }
+
             is JokeFormEvent.SelectLanguage -> {
                 _stateFlow.update {
                     it.copy(
