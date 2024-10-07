@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kspPlugin)
     id("kotlinx-serialization")
 }
 
@@ -38,7 +39,17 @@ android {
     buildFeatures {
         compose = true
     }
-
+    ksp {
+        arg("KOIN_CONFIG_CHECK","true")
+    }
+    applicationVariants.all {
+        val variantName = name
+        sourceSets {
+            getByName("debug") {
+                java.srcDir(File("build/generated/ksp/$variantName/kotlin"))
+            }
+        }
+    }
 }
 
 dependencies {
@@ -48,6 +59,10 @@ dependencies {
 
     implementation(platform(libs.koin.bom))
     implementation(libs.bundles.koin)
+
+    implementation(platform(libs.koin.annotations.bom))
+    implementation(libs.bundles.koin.annototations)
+    api(libs.koin.annotations)
 
     implementation(libs.bundles.ktor)
 

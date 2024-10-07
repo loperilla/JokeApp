@@ -11,6 +11,7 @@ composeBom = "2024.09.03"
 koin-version = "4.0.0"
 ktor-version = "2.3.7"
 ksp = "2.0.20-1.0.25"
+koin-annototations-version = "1.4.0-RC4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -21,6 +22,9 @@ koin-core = { group = "io.insert-koin", name = "koin-core" }
 koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose" }
 koin-navigation = { group = "io.insert-koin", name = "koin-compose-viewmodel-navigation" }
 koin-viewmodel = { group = "io.insert-koin", name = "koin-compose-viewmodel" }
+koin-annotations-bom = { group = "io.insert-koin", name = "koin-annotations-bom", version.ref = "koin-annototations-version" }
+koin-annotations = { group = "io.insert-koin", name = "koin-annotations" }
+koin-ksp-compiler = { group = "io.insert-koin", name = "koin-ksp-compiler" }
 ktor-client-serialization = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor-version" }
 ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor-version" }
 ktor-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor-version" }
@@ -45,7 +49,8 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 
 [bundles]
-koin = ["koin-viewmodel", "koin-compose", "koin-navigation", "koin-core"]
+koin = ["koin-viewmodel", "koin-compose", "koin-navigation", "koin-core", "koin-annotations"]
+koin-annototations = ["koin-annotations", "koin-ksp-compiler"]
 compose = [
     "androidx-core-ktx",
     "androidx-activity-compose",
