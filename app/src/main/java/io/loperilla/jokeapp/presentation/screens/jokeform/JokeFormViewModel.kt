@@ -5,12 +5,12 @@ import androidx.lifecycle.viewModelScope
 import io.loperilla.jokeapp.domain.model.Category
 import io.loperilla.jokeapp.domain.model.Flag
 import io.loperilla.jokeapp.domain.model.FormData
-import io.loperilla.jokeapp.domain.model.toForm
 import io.loperilla.jokeapp.domain.usecase.GetCategoryListUseCase
 import io.loperilla.jokeapp.domain.usecase.GetFlagsUseCase
 import io.loperilla.jokeapp.domain.usecase.GetLanguageUseCase
 import io.loperilla.jokeapp.presentation.navigator.Navigator
 import io.loperilla.jokeapp.presentation.navigator.routes.Destination
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /*****
  * Project: JokeApp
@@ -34,12 +35,14 @@ class JokeFormViewModel(
     private var _stateFlow: MutableStateFlow<JokeFormState> = MutableStateFlow(JokeFormState())
     val stateFlow: StateFlow<JokeFormState> = _stateFlow
         .onStart {
-            _stateFlow.update {
-                it.copy(
-                    languageList = getLanguageUseCase(),
-                    flagList = getFlagsUseCase(),
-                    categoryList = getCategoryListUseCase(),
-                )
+            withContext(Dispatchers.IO) {
+                _stateFlow.update {
+                    it.copy(
+                        languageList = getLanguageUseCase(),
+                        flagList = getFlagsUseCase(),
+                        categoryList = getCategoryListUseCase(),
+                    )
+                }
             }
         }.stateIn(
             scope = viewModelScope,

@@ -1,5 +1,7 @@
 package io.loperilla.jokeapp.data.repository
 
+import io.loperilla.jokeapp.data.local.dao.LanguageDao
+import io.loperilla.jokeapp.data.local.entity.LanguageEntity
 import io.loperilla.jokeapp.data.network.api.JokeApi
 import io.loperilla.jokeapp.data.network.model.JokeLanguageApi
 import io.loperilla.jokeapp.data.network.model.NetworkLanguage
@@ -14,17 +16,33 @@ import io.loperilla.jokeapp.domain.repository.LanguageRepository
  * All rights reserved 2024
  */
 class LanguageRepositoryImpl(
-    private val api: JokeApi
+    private val api: JokeApi,
+    private val dao: LanguageDao
 ) : LanguageRepository {
-
     override suspend fun getLanguages(): List<Language> {
+        val localLanguages = dao.getLanguages()
+        return if (localLanguages.isNotEmpty()) {
+            localLanguages.map { Language(it.code, it.name) }
+        } else {
+            getNetworkLanguages()
+        }
+    }
+
+    private suspend fun getNetworkLanguages(): List<Language> {
         val response = api.getLanguageList()
         return if (response is DomainResult.Success) {
             buildReturnList(response.data).map {
-                Language(
+                val domainLanguage = Language(
                     code = it.code,
                     name = it.name
                 )
+                dao.insert(
+                    LanguageEntity(
+                        code = it.code,
+                        name = it.name
+                    )
+                )
+                domainLanguage
             }
         } else {
             emptyList()

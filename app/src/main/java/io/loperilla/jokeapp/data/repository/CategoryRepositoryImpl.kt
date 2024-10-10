@@ -1,5 +1,7 @@
 package io.loperilla.jokeapp.data.repository
 
+import io.loperilla.jokeapp.data.local.dao.CategoryDao
+import io.loperilla.jokeapp.data.local.entity.CategoryEntity
 import io.loperilla.jokeapp.data.network.api.JokeApi
 import io.loperilla.jokeapp.domain.model.Category
 import io.loperilla.jokeapp.domain.model.DomainResult
@@ -12,17 +14,34 @@ import io.loperilla.jokeapp.domain.repository.CategoryRepository
  * All rights reserved 2024
  */
 class CategoryRepositoryImpl(
-    private val api: JokeApi
+    private val api: JokeApi,
+    private val dao: CategoryDao
 ): CategoryRepository {
 
     override suspend fun getCategories(): List<Category> {
+        val localCategories = dao.getCategories()
+        return if (localCategories.isNotEmpty()) {
+            localCategories.map { Category(it.alias,it.resolvedName) }
+        } else {
+            getNetworkCategoriesList()
+        }
+    }
+
+    private suspend fun getNetworkCategoriesList(): List<Category> {
         val response = api.getCategoriesList()
         return if (response is DomainResult.Success) {
             response.data.categoryAliases.map {
-                Category(
+                val category = Category(
                     it.alias,
                     it.resolved
                 )
+                dao.insertCategory(
+                    CategoryEntity(
+                        alias = it.alias,
+                        resolvedName = it.resolved
+                    )
+                )
+                category
             }
         } else {
             emptyList()

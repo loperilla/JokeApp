@@ -1,6 +1,7 @@
 package io.loperilla.jokeapp
 
 import android.app.Application
+import io.loperilla.jokeapp.data.local.di.localModule
 import io.loperilla.jokeapp.data.network.di.networkModule
 import io.loperilla.jokeapp.domain.repository.di.repositoryModule
 import io.loperilla.jokeapp.domain.usecase.di.useCaseModule
@@ -20,6 +21,7 @@ class JokeApp: Application() {
         startKoin {
             androidContext(this@JokeApp)
             modules(
+                localModule,
                 networkModule,
                 repositoryModule,
                 useCaseModule

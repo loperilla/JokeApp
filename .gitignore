@@ -13,3 +13,4 @@
 .externalNativeBuild
 .cxx
 local.properties
+/app/schemas/io.loperilla.jokeapp.data.local.JokeDatabase/1.json

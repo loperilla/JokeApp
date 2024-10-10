@@ -16,7 +16,7 @@ import org.koin.dsl.module
  */
 
 val repositoryModule = module {
-    factory<LanguageRepository> { LanguageRepositoryImpl(get()) }
-    factory<FlagRepository> { FlagRepositoryImpl(get()) }
-    factory<CategoryRepository> { CategoryRepositoryImpl(get()) }
+    factory<LanguageRepository> { LanguageRepositoryImpl(get(), get()) }
+    factory<FlagRepository> { FlagRepositoryImpl(get(), get()) }
+    factory<CategoryRepository> { CategoryRepositoryImpl(get(), get()) }
 }

@@ -41,6 +41,7 @@ android {
     }
     ksp {
         arg("KOIN_CONFIG_CHECK","true")
+        arg("room.schemaLocation", "$projectDir/schemas")
     }
     applicationVariants.all {
         val variantName = name
@@ -59,6 +60,10 @@ dependencies {
 
     implementation(platform(libs.koin.bom))
     implementation(libs.bundles.koin)
+
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
 
     implementation(platform(libs.koin.annotations.bom))
     implementation(libs.bundles.koin.annototations)
