@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import io.loperilla.jokeapp.domain.model.Category
 import io.loperilla.jokeapp.domain.model.Flag
 import io.loperilla.jokeapp.domain.model.FormData
+import io.loperilla.jokeapp.domain.model.getOrNull
 import io.loperilla.jokeapp.domain.usecase.GetCategoryListUseCase
 import io.loperilla.jokeapp.domain.usecase.GetFlagsUseCase
 import io.loperilla.jokeapp.domain.usecase.GetLanguageUseCase
@@ -38,9 +39,9 @@ class JokeFormViewModel(
             withContext(Dispatchers.IO) {
                 _stateFlow.update {
                     it.copy(
-                        languageList = getLanguageUseCase(),
-                        flagList = getFlagsUseCase(),
-                        categoryList = getCategoryListUseCase(),
+                        languageList = getLanguageUseCase().getOrNull() ?: emptyList(),
+                        flagList = getFlagsUseCase().getOrNull() ?: emptyList(),
+                        categoryList = getCategoryListUseCase().getOrNull() ?: emptyList(),
                     )
                 }
             }

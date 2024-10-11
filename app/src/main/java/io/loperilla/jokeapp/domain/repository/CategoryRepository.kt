@@ -1,6 +1,7 @@
 package io.loperilla.jokeapp.domain.repository
 
 import io.loperilla.jokeapp.domain.model.Category
+import io.loperilla.jokeapp.domain.model.DomainResult
 
 /*****
  * Project: JokeApp
@@ -9,5 +10,5 @@ import io.loperilla.jokeapp.domain.model.Category
  * All rights reserved 2024
  */
 interface CategoryRepository {
-    suspend fun getCategories(): List<Category>
+    suspend fun getCategories(): DomainResult<List<Category>>
 }

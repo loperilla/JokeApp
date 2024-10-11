@@ -11,3 +11,8 @@ const val baseUrl = "https://v2.jokeapi.dev/"
 const val LANGUAGES = "languages"
 const val FLAG = "flags"
 const val CATEGORIES = "categories"
+const val JOKE = "joke"
+
+const val JOKE_LANG = "lang"
+const val JOKE_AMOUNT = "amount"
+const val JOKE_FLAG = "blacklistFlags"

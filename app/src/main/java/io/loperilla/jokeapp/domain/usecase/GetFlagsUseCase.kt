@@ -1,5 +1,6 @@
 package io.loperilla.jokeapp.domain.usecase
 
+import io.loperilla.jokeapp.domain.model.DomainResult
 import io.loperilla.jokeapp.domain.model.Flag
 import io.loperilla.jokeapp.domain.repository.FlagRepository
 
@@ -13,5 +14,5 @@ class GetFlagsUseCase(
     private val flagRepository: FlagRepository
 ) {
 
-    suspend operator fun invoke(): List<Flag> = flagRepository.getFlag()
+    suspend operator fun invoke(): DomainResult<List<Flag>> = flagRepository.getFlag()
 }

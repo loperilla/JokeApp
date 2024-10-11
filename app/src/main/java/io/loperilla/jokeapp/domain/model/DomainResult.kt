@@ -21,3 +21,16 @@ sealed class DomainError(
     data class UnknownError(val throwable: Throwable?):
         DomainError(null, throwable?.message ?: "")
 }
+
+fun <T> DomainResult<T>.fold(
+    onSuccess: (T) -> Unit,
+    onError: (DomainError) -> Unit
+): Unit = when (this) {
+    is DomainResult.Success -> onSuccess(data)
+    is DomainResult.Error -> onError(error)
+}
+
+fun <T> DomainResult<T>.getOrNull(): T? = when (this) {
+    is DomainResult.Success -> data
+    is DomainResult.Error -> null
+}

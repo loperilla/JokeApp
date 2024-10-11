@@ -1,6 +1,7 @@
 package io.loperilla.jokeapp.domain.usecase
 
 import io.loperilla.jokeapp.domain.model.Category
+import io.loperilla.jokeapp.domain.model.DomainResult
 import io.loperilla.jokeapp.domain.repository.CategoryRepository
 
 /*****
@@ -13,5 +14,5 @@ class GetCategoryListUseCase(
     private val repository: CategoryRepository
 ) {
 
-    suspend operator fun invoke(): List<Category> = repository.getCategories()
+    suspend operator fun invoke(): DomainResult<List<Category>> = repository.getCategories()
 }

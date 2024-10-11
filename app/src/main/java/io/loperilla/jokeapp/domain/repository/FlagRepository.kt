@@ -1,5 +1,6 @@
 package io.loperilla.jokeapp.domain.repository
 
+import io.loperilla.jokeapp.domain.model.DomainResult
 import io.loperilla.jokeapp.domain.model.Flag
 /*****
  * Project: JokeApp
@@ -8,5 +9,5 @@ import io.loperilla.jokeapp.domain.model.Flag
  * All rights reserved 2024
  */
 interface FlagRepository {
-    suspend fun getFlag(): List<Flag>
+    suspend fun getFlag(): DomainResult<List<Flag>>
 }

@@ -1,5 +1,6 @@
 package io.loperilla.jokeapp.domain.usecase
 
+import io.loperilla.jokeapp.domain.model.DomainResult
 import io.loperilla.jokeapp.domain.model.Language
 import io.loperilla.jokeapp.domain.repository.LanguageRepository
 
@@ -12,5 +13,5 @@ import io.loperilla.jokeapp.domain.repository.LanguageRepository
 class GetLanguageUseCase(
     private val languageRepository: LanguageRepository
 ) {
-    suspend operator fun invoke(): List<Language> = languageRepository.getLanguages()
+    suspend operator fun invoke(): DomainResult<List<Language>> = languageRepository.getLanguages()
 }

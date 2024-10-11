@@ -5,8 +5,8 @@ import io.ktor.client.plugins.RedirectResponseException
 import io.ktor.client.plugins.ServerResponseException
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
-import io.loperilla.jokeapp.domain.model.DomainError
-import io.loperilla.jokeapp.domain.model.DomainResult
+import io.loperilla.jokeapp.data.network.model.ApiResult
+import io.loperilla.jokeapp.data.network.model.ApiResultError
 import kotlinx.serialization.json.Json
 
 /*****
@@ -19,19 +19,19 @@ import kotlinx.serialization.json.Json
 suspend inline fun <reified T> processResponse(
     json: Json,
     call: () -> HttpResponse
-): DomainResult<T> {
+): ApiResult<T> {
     return try {
         val httpResponse = call.invoke()
         val body = httpResponse.bodyAsText()
         if (httpResponse.status.value in 200..299) {
-            DomainResult.Success(
+            ApiResult.Success(
                 data = json.decodeFromString<T>(
                     body
                 )
             )
         } else {
-            DomainResult.Error(
-                DomainError.NetworkError(
+            ApiResult.Error(
+                ApiResultError.NetworkError(
                     httpResponse.status.value,
                     httpResponse.status.description
                 )
@@ -39,17 +39,17 @@ suspend inline fun <reified T> processResponse(
         }
     } catch (e: RedirectResponseException) {
         println("Error: ${e.response.status.description}")
-        DomainResult.Error(
-            DomainError.UnknownError(throwable = e)
+        ApiResult.Error(
+            ApiResultError.UnknownError(throwable = e)
         )
     } catch (e: ClientRequestException) {
         println("Error: ${e.response.status.description}")
-        DomainResult.Error(DomainError.UnknownError(throwable = e))
+        ApiResult.Error(ApiResultError.UnknownError(throwable = e))
     } catch (e: ServerResponseException) {
         println("Error: ${e.response.status.description}")
-        DomainResult.Error(DomainError.UnknownError(throwable = e))
+        ApiResult.Error(ApiResultError.UnknownError(throwable = e))
     } catch (e: Exception) {
         println("Error: ${e.message}")
-        DomainResult.Error(DomainError.UnknownError(throwable = e))
+        ApiResult.Error(ApiResultError.UnknownError(throwable = e))
     }
 }

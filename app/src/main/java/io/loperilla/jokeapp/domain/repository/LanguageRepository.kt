@@ -1,5 +1,6 @@
 package io.loperilla.jokeapp.domain.repository
 
+import io.loperilla.jokeapp.domain.model.DomainResult
 import io.loperilla.jokeapp.domain.model.Language
 
 /*****
@@ -9,5 +10,5 @@ import io.loperilla.jokeapp.domain.model.Language
  * All rights reserved 2024
  */
 interface LanguageRepository {
-    suspend fun getLanguages(): List<Language>
+    suspend fun getLanguages(): DomainResult<List<Language>>
 }
