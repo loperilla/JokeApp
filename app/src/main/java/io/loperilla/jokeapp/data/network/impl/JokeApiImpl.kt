@@ -3,6 +3,10 @@ package io.loperilla.jokeapp.data.network.impl
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.request.url
+import io.ktor.http.URLBuilder
+import io.ktor.http.URLProtocol
+import io.ktor.http.URLProtocol.Companion
+import io.ktor.http.parameters
 import io.loperilla.jokeapp.data.network.api.JokeApi
 import io.loperilla.jokeapp.data.network.model.ApiResult
 import io.loperilla.jokeapp.data.network.model.CategoryApi
@@ -20,6 +24,7 @@ import io.loperilla.jokeapp.data.network.utils.baseUrl
 import io.loperilla.jokeapp.data.network.utils.processResponse
 import io.loperilla.jokeapp.domain.model.FormData
 import kotlinx.serialization.json.Json
+import org.koin.core.parameter.parameterArrayOf
 
 /*****
  * Project: JokeApp
@@ -30,11 +35,11 @@ import kotlinx.serialization.json.Json
 class JokeApiImpl(
     private val httpClient: HttpClient,
     private val json: Json
-): JokeApi {
+) : JokeApi {
     override suspend fun getLanguageList(): ApiResult<JokeLanguageApi> {
         return processResponse(json) {
             httpClient.get {
-                url("${baseUrl}$LANGUAGES")
+                url(LANGUAGES)
             }
         }
     }
@@ -42,7 +47,7 @@ class JokeApiImpl(
     override suspend fun getFlagsList(): ApiResult<FlagApi> {
         return processResponse(json) {
             httpClient.get {
-                url("${baseUrl}$FLAG")
+                url(FLAG)
             }
         }
     }
@@ -50,23 +55,21 @@ class JokeApiImpl(
     override suspend fun getCategoriesList(): ApiResult<CategoryApi> {
         return processResponse(json) {
             httpClient.get {
-                url("${baseUrl}$CATEGORIES")
+                url(CATEGORIES)
             }
         }
     }
 
     override suspend fun getJokeFromData(formData: FormData): ApiResult<JokeModelApi> {
+        val category = formData.categories
         return processResponse(json) {
             httpClient.get {
                 url {
-                    val category = formData.categories
-                    it.host = "$baseUrl$JOKE/$category"
-                    it.parameters.apply {
-                        append(JOKE_LANG, formData.language)
-                        append(JOKE_FLAG, formData.flags)
-                    }
+                    url("$JOKE/$category")
+                    parameters.append(JOKE_LANG, formData.language)
+                    parameters.append(JOKE_FLAG, formData.flags)
+                    parameters.append("type", "twopart")
                 }
-                url("${baseUrl}$baseUrl")
             }
         }
     }
@@ -76,14 +79,14 @@ class JokeApiImpl(
             httpClient.get {
                 url {
                     val category = formData.categories
-                    it.host = "$baseUrl$JOKE/$category"
+                    it.host = "$JOKE/$category"
                     it.parameters.apply {
                         append(JOKE_LANG, formData.language)
                         append(JOKE_FLAG, formData.flags)
+                        append("type", "twopart")
                         append(JOKE_AMOUNT, formData.amount.toString())
                     }
                 }
-                url("${baseUrl}$baseUrl")
             }
         }
     }

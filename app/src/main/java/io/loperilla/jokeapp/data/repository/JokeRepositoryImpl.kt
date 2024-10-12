@@ -19,7 +19,7 @@ class JokeRepositoryImpl(
     private val api: JokeApi,
 ): JokeRepository {
     override suspend fun getJoke(formData: FormData): DomainResult<List<JokeModel>> {
-        return if (formData.amount > 1) {
+        return if (formData.amount == 1) {
             getSingleJoke(formData)
         } else {
             getListOfJokes(formData)

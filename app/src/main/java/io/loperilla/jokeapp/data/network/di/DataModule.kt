@@ -3,8 +3,10 @@ package io.loperilla.jokeapp.data.network.di
 import android.util.Log
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.observer.ResponseObserver
@@ -13,8 +15,11 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.statement.bodyAsText
+import io.ktor.http.URLProtocol
 import io.loperilla.jokeapp.data.network.api.JokeApi
 import io.loperilla.jokeapp.data.network.impl.JokeApiImpl
+import io.loperilla.jokeapp.data.network.utils.baseUrl
 import org.koin.dsl.module
 
 /*****
@@ -46,13 +51,19 @@ val networkModule = module {
                 level = LogLevel.INFO
             }
 
+            defaultRequest {
+                url {
+                    protocol = URLProtocol.HTTPS
+                    host = baseUrl
+                }
+            }
+
             install(ResponseObserver) {
                 onResponse { response ->
                     Log.d("HTTP status:", "${response.status.value}")
                     Log.d("HTTP requestTime:", "${response.requestTime}")
                     Log.d("HTTP responseTime:", "${response.responseTime}")
                     Log.d("HTTP url:", "${response.request.url}")
-                    Log.d("HTTP value:", "${response.status.value}")
                 }
             }
 

@@ -1,5 +1,7 @@
 package io.loperilla.jokeapp.presentation.screens.jokeresult
 
+import io.loperilla.jokeapp.domain.model.joke.JokeModel
+
 /*****
  * Project: JokeApp
  * From: io.loperilla.jokeapp.presentation.screens.welcome
@@ -7,5 +9,6 @@ package io.loperilla.jokeapp.presentation.screens.jokeresult
  * All rights reserved 2024
  */
 data class JokeResultState(
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val jokeModels: List<JokeModel> = emptyList()
 )

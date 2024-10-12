@@ -2,9 +2,11 @@ package io.loperilla.jokeapp.domain.repository.di
 
 import io.loperilla.jokeapp.data.repository.CategoryRepositoryImpl
 import io.loperilla.jokeapp.data.repository.FlagRepositoryImpl
+import io.loperilla.jokeapp.data.repository.JokeRepositoryImpl
 import io.loperilla.jokeapp.data.repository.LanguageRepositoryImpl
 import io.loperilla.jokeapp.domain.repository.CategoryRepository
 import io.loperilla.jokeapp.domain.repository.FlagRepository
+import io.loperilla.jokeapp.domain.repository.JokeRepository
 import io.loperilla.jokeapp.domain.repository.LanguageRepository
 import org.koin.dsl.module
 
@@ -19,4 +21,5 @@ val repositoryModule = module {
     factory<LanguageRepository> { LanguageRepositoryImpl(get(), get()) }
     factory<FlagRepository> { FlagRepositoryImpl(get(), get()) }
     factory<CategoryRepository> { CategoryRepositoryImpl(get(), get()) }
+    factory<JokeRepository> { JokeRepositoryImpl(get()) }
 }

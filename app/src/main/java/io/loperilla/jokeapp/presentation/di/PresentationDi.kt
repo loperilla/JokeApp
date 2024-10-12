@@ -31,6 +31,7 @@ private val viewModelModule = module {
     viewModel { parameter ->
         JokeResultViewModel(
             parameter.get(),
+            get(),
             get()
         )
     }

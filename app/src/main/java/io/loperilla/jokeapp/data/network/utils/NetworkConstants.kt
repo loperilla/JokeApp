@@ -7,7 +7,7 @@ package io.loperilla.jokeapp.data.network.utils
  * All rights reserved 2024
  */
 
-const val baseUrl = "https://v2.jokeapi.dev/"
+const val baseUrl = "v2.jokeapi.dev"
 const val LANGUAGES = "languages"
 const val FLAG = "flags"
 const val CATEGORIES = "categories"
