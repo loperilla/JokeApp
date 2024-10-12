@@ -40,7 +40,7 @@ class JokeRepositoryImpl(
             is ApiResult.Error -> DomainResult.Error(result.error.toDomainError())
             is ApiResult.Success -> {
                 DomainResult.Success(
-                    result.data.map { it.toDomain() }
+                    result.data.jokes.map { it.toDomain() }
                 )
             }
         }

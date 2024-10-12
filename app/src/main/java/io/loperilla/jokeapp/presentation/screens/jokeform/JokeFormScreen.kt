@@ -12,8 +12,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.PlusOne
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -33,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import io.loperilla.jokeapp.domain.model.Language
 import io.loperilla.jokeapp.presentation.theme.JokePreview
 
@@ -98,7 +102,7 @@ fun JokeFormScreen(
             )
 
             JokeAmountSelector(
-                state = state.jokeAmount,
+                amount = state.jokeAmount,
                 onEvent = onEvent,
                 modifier = Modifier
                     .padding(bottom = 8.dp)
@@ -233,11 +237,51 @@ fun CategorySelector(
 
 @Composable
 fun JokeAmountSelector(
-    state: Int,
+    amount: Int,
     onEvent: (JokeFormEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = modifier
+            .fillMaxWidth()
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+        ) {
+            IconButton(
+                enabled = amount != 1,
+                onClick = {
+                    onEvent(JokeFormEvent.MinusAmount)
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Remove,
+                    contentDescription = null
+                )
+            }
+            Text(
+                text = "$amount",
+                fontSize = 24.sp
+            )
 
+            IconButton(
+                enabled = amount != 10,
+                onClick = {
+                    onEvent(JokeFormEvent.PlusAmount)
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = null
+                )
+            }
+        }
+    }
 }
 
 @Composable

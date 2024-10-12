@@ -10,7 +10,6 @@ data class JokeModel(
     val id: Int,
     val category: String,
     val delivery: String,
-    val error: Boolean,
     val flags: JokeFlags,
     val lang: String,
     val safe: Boolean,

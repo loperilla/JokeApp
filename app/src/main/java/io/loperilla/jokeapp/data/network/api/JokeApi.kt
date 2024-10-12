@@ -4,6 +4,7 @@ import io.loperilla.jokeapp.data.network.model.ApiResult
 import io.loperilla.jokeapp.data.network.model.CategoryApi
 import io.loperilla.jokeapp.data.network.model.FlagApi
 import io.loperilla.jokeapp.data.network.model.JokeLanguageApi
+import io.loperilla.jokeapp.data.network.model.joke.JokeListApi
 import io.loperilla.jokeapp.data.network.model.joke.JokeModelApi
 import io.loperilla.jokeapp.domain.model.FormData
 
@@ -18,5 +19,5 @@ interface JokeApi {
     suspend fun getFlagsList(): ApiResult<FlagApi>
     suspend fun getCategoriesList(): ApiResult<CategoryApi>
     suspend fun getJokeFromData(formData: FormData): ApiResult<JokeModelApi>
-    suspend fun getJokeFromDataList(formData: FormData): ApiResult<List<JokeModelApi>>
+    suspend fun getJokeFromDataList(formData: FormData): ApiResult<JokeListApi>
 }

@@ -75,11 +75,7 @@ class JokeFormViewModel(
             )
 
             JokeFormEvent.BackToWelcome -> navigator.navigateUp()
-            is JokeFormEvent.ChangeJokeAmount -> {
-                _stateFlow.update {
-                    it.copy(jokeAmount = event.amount)
-                }
-            }
+
             is JokeFormEvent.SelectCategory -> {
                 val newList: List<Category> = if (stateFlow.value.categoriesSelected.contains(event.category)) {
                     stateFlow.value.categoriesSelected - event.category
@@ -117,6 +113,13 @@ class JokeFormViewModel(
 
             JokeFormEvent.ChangeChipVisibility -> _stateFlow.update {
                 it.copy(languageSelectorVisibility = !stateFlow.value.languageSelectorVisibility)
+            }
+
+            JokeFormEvent.MinusAmount -> _stateFlow.update {
+                it.copy(jokeAmount = stateFlow.value.jokeAmount.minus(1))
+            }
+            JokeFormEvent.PlusAmount -> _stateFlow.update {
+                it.copy(jokeAmount = stateFlow.value.jokeAmount.plus(1))
             }
         }
     }

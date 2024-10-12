@@ -7,7 +7,6 @@ import kotlinx.serialization.Serializable
 data class JokeModelApi(
     val category: String,
     val delivery: String,
-    val error: Boolean,
     val flags: JokeFlagsApi,
     val id: Int,
     val lang: String,
@@ -19,7 +18,6 @@ data class JokeModelApi(
 fun JokeModelApi.toDomain() = JokeModel(
     category = category,
     delivery = delivery,
-    error = error,
     flags = flags.toDomain(),
     id = id,
     lang = lang,

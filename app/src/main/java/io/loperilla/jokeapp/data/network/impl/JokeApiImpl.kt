@@ -12,6 +12,7 @@ import io.loperilla.jokeapp.data.network.model.ApiResult
 import io.loperilla.jokeapp.data.network.model.CategoryApi
 import io.loperilla.jokeapp.data.network.model.FlagApi
 import io.loperilla.jokeapp.data.network.model.JokeLanguageApi
+import io.loperilla.jokeapp.data.network.model.joke.JokeListApi
 import io.loperilla.jokeapp.data.network.model.joke.JokeModelApi
 import io.loperilla.jokeapp.data.network.utils.CATEGORIES
 import io.loperilla.jokeapp.data.network.utils.FLAG
@@ -74,18 +75,16 @@ class JokeApiImpl(
         }
     }
 
-    override suspend fun getJokeFromDataList(formData: FormData): ApiResult<List<JokeModelApi>> {
+    override suspend fun getJokeFromDataList(formData: FormData): ApiResult<JokeListApi> {
+        val category = formData.categories
         return processResponse(json) {
             httpClient.get {
                 url {
-                    val category = formData.categories
-                    it.host = "$JOKE/$category"
-                    it.parameters.apply {
-                        append(JOKE_LANG, formData.language)
-                        append(JOKE_FLAG, formData.flags)
-                        append("type", "twopart")
-                        append(JOKE_AMOUNT, formData.amount.toString())
-                    }
+                    url("$JOKE/$category")
+                    parameters.append(JOKE_LANG, formData.language)
+                    parameters.append(JOKE_FLAG, formData.flags)
+                    parameters.append("type", "twopart")
+                    parameters.append(JOKE_AMOUNT, formData.amount.toString())
                 }
             }
         }

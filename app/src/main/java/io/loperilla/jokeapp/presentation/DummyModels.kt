@@ -26,5 +26,4 @@ val joke = JokeModel(
     type = "single",
     lang = "en",
     safe = true,
-    error = false
 )

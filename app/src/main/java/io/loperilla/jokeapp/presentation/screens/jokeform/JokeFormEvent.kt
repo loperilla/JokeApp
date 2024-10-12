@@ -17,6 +17,7 @@ sealed class JokeFormEvent {
     data object ChangeChipVisibility : JokeFormEvent()
     data class SelectLanguage(val language: Language) : JokeFormEvent()
     data class SelectCategory(val category: Category) : JokeFormEvent()
-    data class ChangeJokeAmount(val amount: Int) : JokeFormEvent()
+    data object PlusAmount : JokeFormEvent()
+    data object MinusAmount : JokeFormEvent()
     data class SelectFlag(val flag: Flag) : JokeFormEvent()
 }
