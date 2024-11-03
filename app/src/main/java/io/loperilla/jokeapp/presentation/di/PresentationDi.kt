@@ -14,11 +14,11 @@ import org.koin.dsl.module
  * Created By Manuel Lopera on 5/10/24 at 11:23
  * All rights reserved 2024
  */
-private val navigatorModule = module {
+val navigatorModule = module {
     single<Navigator> { DefaultNavigator() }
 }
 
-private val viewModelModule = module {
+val viewModelModule = module {
     viewModel { WelcomeViewModel(get()) }
     viewModel {
         JokeFormViewModel(

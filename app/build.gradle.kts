@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kspPlugin)
+    alias(libs.plugins.androidJUnit5)
     id("kotlinx-serialization")
 }
 
@@ -41,6 +42,7 @@ android {
     }
     ksp {
         arg("KOIN_CONFIG_CHECK","true")
+        arg("KOIN_USE_COMPOSE_VIEWMODEL","true")
         arg("room.schemaLocation", "$projectDir/schemas")
     }
     applicationVariants.all {
@@ -72,6 +74,16 @@ dependencies {
     implementation(libs.bundles.ktor)
 
     testImplementation(libs.junit)
+    testImplementation(libs.koin.test)
+    testImplementation(libs.turbine)
+    testImplementation(libs.koin.junit5)
+    testImplementation(libs.coroutine.test)
+    testImplementation(libs.mockk)
+    testImplementation(libs.assertk)
+    testImplementation(libs.core.testing)
+    testImplementation(libs.bundles.jupiter)
+    testRuntimeOnly(libs.jupiter.engine)
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))

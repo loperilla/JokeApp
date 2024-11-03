@@ -17,9 +17,7 @@ import kotlinx.coroutines.launch
  */
 class WelcomeViewModel(
     private val navigator: Navigator
-): ViewModel() {
-    private var _stateFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val stateFlow: StateFlow<Boolean> = _stateFlow.asStateFlow()
+) : ViewModel() {
 
     fun onEvent(event: WelcomeEvent) = viewModelScope.launch {
         when (event) {
