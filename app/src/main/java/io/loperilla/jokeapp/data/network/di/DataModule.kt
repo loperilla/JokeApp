@@ -3,23 +3,21 @@ package io.loperilla.jokeapp.data.network.di
 import android.util.Log
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
-import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.observer.ResponseObserver
 import io.ktor.client.statement.request
-import io.ktor.serialization.kotlinx.json.json
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.json.Json
-import io.ktor.client.plugins.logging.Logger
-import io.ktor.client.statement.bodyAsText
 import io.ktor.http.URLProtocol
+import io.ktor.serialization.kotlinx.json.json
 import io.loperilla.jokeapp.data.network.api.JokeApi
 import io.loperilla.jokeapp.data.network.impl.JokeApiImpl
 import io.loperilla.jokeapp.data.network.utils.baseUrl
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 
 /*****
@@ -41,6 +39,7 @@ val networkModule = module {
     }
 
     single<HttpClient> {
+
         HttpClient(OkHttp) {
             install(Logging) {
                 logger = object : Logger {

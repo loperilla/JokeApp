@@ -234,7 +234,7 @@ class JokeFormViewModelTest {
         }
 
     @Test
-    fun `When category previowly selected is deselected, selected flag is removed category flag selected list`() =
+    fun `When category previowsly selected is deselected, selected flag is removed category flag selected list`() =
         runTest {
             // GIVEN
             viewModel.onEvent(JokeFormEvent.SelectCategory(programmingCategory))

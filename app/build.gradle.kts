@@ -9,7 +9,7 @@ plugins {
 
 android {
     namespace = "io.loperilla.jokeapp"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "io.loperilla.jokeapp"
