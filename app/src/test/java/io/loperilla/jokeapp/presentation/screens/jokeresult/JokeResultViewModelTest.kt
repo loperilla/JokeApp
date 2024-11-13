@@ -44,6 +44,7 @@ class JokeResultViewModelTest {
 
     @BeforeEach
     fun setUp() {
+        MockKAnnotations.init(this)
         viewModel = JokeResultViewModel(
             formData = formData,
             navigator = navigator,
@@ -83,18 +84,6 @@ class JokeResultViewModelTest {
         // ASSERTION
         coVerify {
             navigator.navigateUp()
-        }
-    }
-
-    companion object {
-
-
-        @JvmStatic
-        @BeforeAll
-        fun setup() {
-            MockKAnnotations.init(this)
-
-
         }
     }
 }

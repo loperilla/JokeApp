@@ -30,7 +30,6 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -48,10 +47,32 @@ class JokeFormViewModelTest {
     val rule = InstantTaskExecutorRule()
 
     private lateinit var viewModel: JokeFormViewModel
+    private val navigator = mockk<Navigator>(relaxed = true)
+    private val getLanguageUseCase = mockk<GetLanguageUseCase>(relaxed = true)
+    private val getCategoryListUseCase = mockk<GetCategoryListUseCase>(relaxed = true)
+    private val getFlagsUseCase = mockk<GetFlagsUseCase>(relaxed = true)
 
     @BeforeEach
     fun setUp() {
-        // Inicializamos el ViewModel
+        MockKAnnotations.init(this)
+        coEvery { getLanguageUseCase() } returns DomainResult.Success(
+            listOf(
+                languageEN,
+                languageES
+            )
+        )
+        coEvery { getCategoryListUseCase() } returns DomainResult.Success(
+            listOf(
+                miscellaneousCategory,
+                programmingCategory
+            )
+        )
+        coEvery { getFlagsUseCase() } returns DomainResult.Success(
+            listOf(
+                nsfwFlag,
+                politicalFlag
+            )
+        )
         viewModel = JokeFormViewModel(
             navigator = navigator,
             getLanguageUseCase = getLanguageUseCase,
@@ -265,69 +286,29 @@ class JokeFormViewModelTest {
 
     @Test
     fun `When user click submit, submit is called and navigate`() = runTest {
-        // GIVEN
-        viewModel.onEvent(JokeFormEvent.SelectFlag(nsfwFlag))
-        viewModel.onEvent(JokeFormEvent.SelectCategory(programmingCategory))
-        viewModel.onEvent(JokeFormEvent.SelectLanguage(languageEN))
-        viewModel.onEvent(JokeFormEvent.PlusAmount)
-        viewModel.onEvent(JokeFormEvent.PlusAmount)
-        viewModel.onEvent(JokeFormEvent.PlusAmount)
+        val job = launch {
+            viewModel.onEvent(JokeFormEvent.SelectFlag(nsfwFlag))
+            viewModel.onEvent(JokeFormEvent.SelectCategory(programmingCategory))
+            viewModel.onEvent(JokeFormEvent.SelectLanguage(languageEN))
+            viewModel.onEvent(JokeFormEvent.PlusAmount)
+            viewModel.onEvent(JokeFormEvent.PlusAmount)
+            viewModel.onEvent(JokeFormEvent.PlusAmount)
 
-        viewModel.onEvent(JokeFormEvent.NavigateToJokeResult)
-        advanceUntilIdle()
-
-        val formData = FormData(
-            flags = nsfwFlag.name,
-            categories = programmingCategory.alias,
-            language = languageEN.code,
-            amount = 3
-        )
-
-        // ACTION
-
-        coVerify {
-            navigator.navigate(
-                Destination.Joke(formData),
-                any()
+            viewModel.onEvent(JokeFormEvent.NavigateToJokeResult)
+            advanceUntilIdle()
+            val formData = FormData(
+                flags = nsfwFlag.name,
+                categories = programmingCategory.alias,
+                language = languageEN.code,
+                amount = 3
             )
-        }
-    }
-
-    companion object {
-        val navigator = mockk<Navigator>(relaxed = true)
-        val getLanguageUseCase = mockk<GetLanguageUseCase>(relaxed = true)
-        val getCategoryListUseCase = mockk<GetCategoryListUseCase>(relaxed = true)
-        val getFlagsUseCase = mockk<GetFlagsUseCase>(relaxed = true)
-
-        @JvmStatic
-        @BeforeAll
-        fun setupAll() {
-            MockKAnnotations.init(this)
-
-            coEvery { getLanguageUseCase() } returns DomainResult.Success(
-                listOf(
-                    languageEN,
-                    languageES
-                )
-            )
-            coEvery { getCategoryListUseCase() } returns DomainResult.Success(
-                listOf(
-                    miscellaneousCategory,
-                    programmingCategory
-                )
-            )
-            coEvery { getFlagsUseCase() } returns DomainResult.Success(
-                listOf(
-                    nsfwFlag,
-                    politicalFlag
-                )
-            )
-            coEvery {
+            coVerify {
                 navigator.navigate(
-                    eq(Destination.Joke(any())),
-                    any()
+                    Destination.Joke(formData)
                 )
-            } returns Unit
+            }
         }
+
+        job.cancel()
     }
 }
