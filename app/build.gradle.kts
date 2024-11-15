@@ -53,9 +53,6 @@ android {
             }
         }
     }
-    tasks.named("kspDebugKotlin") {
-        mustRunAfter("kspReleaseKotlin")
-    }
 }
 
 dependencies {
