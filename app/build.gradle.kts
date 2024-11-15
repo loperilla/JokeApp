@@ -91,6 +91,7 @@ dependencies {
     testImplementation(libs.koin.junit5)
     testImplementation(libs.coroutine.test)
     testImplementation(libs.mockk)
+    testImplementation(libs.ktor.mock)
     testImplementation(libs.assertk)
     testImplementation(libs.core.testing)
     testImplementation(libs.bundles.jupiter)

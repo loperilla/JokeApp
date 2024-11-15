@@ -4,6 +4,7 @@ import io.loperilla.jokeapp.data.network.api.JokeApi
 import io.loperilla.jokeapp.data.network.model.ApiResult
 import io.loperilla.jokeapp.data.network.model.joke.toDomain
 import io.loperilla.jokeapp.data.network.model.toDomainError
+import io.loperilla.jokeapp.domain.model.DomainError
 import io.loperilla.jokeapp.domain.model.DomainResult
 import io.loperilla.jokeapp.domain.model.FormData
 import io.loperilla.jokeapp.domain.model.joke.JokeModel
@@ -19,10 +20,10 @@ class JokeRepositoryImpl(
     private val api: JokeApi,
 ): JokeRepository {
     override suspend fun getJoke(formData: FormData): DomainResult<List<JokeModel>> {
-        return if (formData.amount == 1) {
-            getSingleJoke(formData)
-        } else {
-            getListOfJokes(formData)
+        return when {
+            formData.amount <= 0 -> DomainResult.Error(DomainError.UnknownError(Throwable()))
+            formData.amount == 1 -> getSingleJoke(formData)
+            else -> getListOfJokes(formData)
         }
     }
 

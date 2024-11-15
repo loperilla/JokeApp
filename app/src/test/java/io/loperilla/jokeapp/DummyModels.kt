@@ -1,6 +1,21 @@
 package io.loperilla.jokeapp
 
+import io.loperilla.jokeapp.data.local.entity.CategoryEntity
+import io.loperilla.jokeapp.data.local.entity.FlagEntity
+import io.loperilla.jokeapp.data.local.entity.LanguageEntity
+import io.loperilla.jokeapp.data.network.model.ApiResultError
+import io.loperilla.jokeapp.data.network.model.CategoryAliasesApi
+import io.loperilla.jokeapp.data.network.model.CategoryApi
+import io.loperilla.jokeapp.data.network.model.FlagApi
+import io.loperilla.jokeapp.data.network.model.JokeLanguageApi
+import io.loperilla.jokeapp.data.network.model.NetworkLanguage
+import io.loperilla.jokeapp.data.network.model.joke.JokeFlagsApi
+import io.loperilla.jokeapp.data.network.model.joke.JokeListApi
+import io.loperilla.jokeapp.data.network.model.joke.JokeModelApi
+import io.loperilla.jokeapp.data.network.model.joke.toDomain
+import io.loperilla.jokeapp.data.network.model.toDomainError
 import io.loperilla.jokeapp.domain.model.Category
+import io.loperilla.jokeapp.domain.model.DomainError
 import io.loperilla.jokeapp.domain.model.Flag
 import io.loperilla.jokeapp.domain.model.FormData
 import io.loperilla.jokeapp.domain.model.Language
@@ -53,7 +68,9 @@ val formData = FormData(
     amount = 1
 )
 
-val jokeDummy = JokeModel(
+val formDataWithAmountTwo = formData.copy(amount = 2)
+
+val jokeModelApi = JokeModelApi(
     id = 50,
     safe = true,
     lang = "en",
@@ -61,7 +78,7 @@ val jokeDummy = JokeModel(
     type = "twopart",
     setup = "Why do programmers wear glasses?",
     delivery = "Because they need to C#",
-    flags = JokeFlags(
+    flags = JokeFlagsApi(
         nsfw = false,
         religious = false,
         political = false,
@@ -70,3 +87,52 @@ val jokeDummy = JokeModel(
         explicit = false
     )
 )
+
+val jokeListApi = JokeListApi(
+    amount = 2,
+    error = false,
+    jokes = listOf(jokeModelApi)
+)
+
+val jokeDummy = jokeModelApi.toDomain()
+
+val categoryEntity = CategoryEntity(
+    alias = "dummy",
+    resolvedName = "dummy"
+)
+
+val miscellaneousCategoryAliasApi = CategoryAliasesApi(
+    alias = "Miscellaneous",
+    resolved = "Miscellaneous"
+)
+
+val programmingCategoryAliasApi = CategoryAliasesApi(
+    alias = "Programming",
+    resolved = "Programming"
+)
+
+val flagEntity = FlagEntity(
+    name = "dummy"
+)
+
+val flagApi = FlagApi(
+    listOf("dummy")
+)
+
+val languageEntity = LanguageEntity(
+    code = "dummy",
+    name = "dummy"
+)
+
+val languageNetworkApi = NetworkLanguage(
+    code = "dummy",
+    name = "dummy"
+)
+val languageApi = JokeLanguageApi(
+    jokeLanguages = listOf("dummy"),
+    possibleLanguages = listOf(languageNetworkApi)
+)
+
+val networkApiError = ApiResultError.NetworkError(404, "Not Found")
+val networkDomainError = networkApiError.toDomainError()
+val unknownDomainError = DomainError.UnknownError(Throwable())
