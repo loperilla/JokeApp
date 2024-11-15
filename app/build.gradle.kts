@@ -45,6 +45,18 @@ android {
         arg("KOIN_USE_COMPOSE_VIEWMODEL","true")
         arg("room.schemaLocation", "$projectDir/schemas")
     }
+    testOptions {
+        animationsDisabled=true
+        reportDir = "$rootDir/instrumentedTestsResults/reports/$project.name"
+        resultsDir = "$rootDir/instrumentedTestsResults/results/$project.name"
+        unitTests{
+            isIncludeAndroidResources = true
+            isReturnDefaultValues = true
+            all { test ->
+                test.useJUnitPlatform()
+            }
+        }
+    }
     applicationVariants.all {
         val variantName = name
         sourceSets {
