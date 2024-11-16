@@ -5,7 +5,6 @@ import io.loperilla.jokeapp.data.local.entity.FlagEntity
 import io.loperilla.jokeapp.data.local.entity.LanguageEntity
 import io.loperilla.jokeapp.data.network.model.ApiResultError
 import io.loperilla.jokeapp.data.network.model.CategoryAliasesApi
-import io.loperilla.jokeapp.data.network.model.CategoryApi
 import io.loperilla.jokeapp.data.network.model.FlagApi
 import io.loperilla.jokeapp.data.network.model.JokeLanguageApi
 import io.loperilla.jokeapp.data.network.model.NetworkLanguage
@@ -19,8 +18,6 @@ import io.loperilla.jokeapp.domain.model.DomainError
 import io.loperilla.jokeapp.domain.model.Flag
 import io.loperilla.jokeapp.domain.model.FormData
 import io.loperilla.jokeapp.domain.model.Language
-import io.loperilla.jokeapp.domain.model.joke.JokeFlags
-import io.loperilla.jokeapp.domain.model.joke.JokeModel
 
 /*****
  * Project: JokeApp

@@ -18,7 +18,7 @@ sealed class DomainError(
     data class NetworkError(val apiCodeError: Int, val apiErrorMessage: String?):
         DomainError(apiCodeError, apiErrorMessage)
 
-    data class UnknownError(val throwable: Throwable?):
+    data class UnknownError(val throwable: Throwable? = null):
         DomainError(null, throwable?.message ?: "")
 }
 

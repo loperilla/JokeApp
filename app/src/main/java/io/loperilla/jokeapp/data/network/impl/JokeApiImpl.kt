@@ -3,10 +3,6 @@ package io.loperilla.jokeapp.data.network.impl
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.request.url
-import io.ktor.http.URLBuilder
-import io.ktor.http.URLProtocol
-import io.ktor.http.URLProtocol.Companion
-import io.ktor.http.parameters
 import io.loperilla.jokeapp.data.network.api.JokeApi
 import io.loperilla.jokeapp.data.network.model.ApiResult
 import io.loperilla.jokeapp.data.network.model.CategoryApi
@@ -21,11 +17,9 @@ import io.loperilla.jokeapp.data.network.utils.JOKE_AMOUNT
 import io.loperilla.jokeapp.data.network.utils.JOKE_FLAG
 import io.loperilla.jokeapp.data.network.utils.JOKE_LANG
 import io.loperilla.jokeapp.data.network.utils.LANGUAGES
-import io.loperilla.jokeapp.data.network.utils.baseUrl
 import io.loperilla.jokeapp.data.network.utils.processResponse
 import io.loperilla.jokeapp.domain.model.FormData
 import kotlinx.serialization.json.Json
-import org.koin.core.parameter.parameterArrayOf
 
 /*****
  * Project: JokeApp

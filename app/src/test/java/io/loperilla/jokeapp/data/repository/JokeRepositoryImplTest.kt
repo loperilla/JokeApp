@@ -3,12 +3,8 @@ package io.loperilla.jokeapp.data.repository
 import io.loperilla.jokeapp.MainCoroutineExtension
 import io.loperilla.jokeapp.data.network.api.JokeApi
 import io.loperilla.jokeapp.data.network.model.ApiResult
-import io.loperilla.jokeapp.data.network.model.ApiResultError
-import io.loperilla.jokeapp.domain.model.DomainError
 import io.loperilla.jokeapp.domain.model.DomainResult
-import io.loperilla.jokeapp.domain.model.Flag
 import io.loperilla.jokeapp.domain.repository.JokeRepository
-import io.loperilla.jokeapp.flagApi
 import io.loperilla.jokeapp.formData
 import io.loperilla.jokeapp.formDataWithAmountTwo
 import io.loperilla.jokeapp.jokeDummy
@@ -16,9 +12,7 @@ import io.loperilla.jokeapp.jokeListApi
 import io.loperilla.jokeapp.jokeModelApi
 import io.loperilla.jokeapp.networkApiError
 import io.loperilla.jokeapp.networkDomainError
-import io.loperilla.jokeapp.unknownDomainError
 import io.mockk.coEvery
-import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach

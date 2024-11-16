@@ -40,11 +40,13 @@ android {
     buildFeatures {
         compose = true
     }
+
     ksp {
         arg("KOIN_CONFIG_CHECK","true")
         arg("KOIN_USE_COMPOSE_VIEWMODEL","true")
         arg("room.schemaLocation", "$projectDir/schemas")
     }
+
     testOptions {
         animationsDisabled=true
         reportDir = "$rootDir/instrumentedTestsResults/reports/$project.name"

@@ -3,7 +3,6 @@ package io.loperilla.jokeapp.data.repository
 import io.loperilla.jokeapp.MainCoroutineExtension
 import io.loperilla.jokeapp.categoryEntity
 import io.loperilla.jokeapp.data.local.dao.CategoryDao
-import io.loperilla.jokeapp.data.local.entity.CategoryEntity
 import io.loperilla.jokeapp.data.network.api.JokeApi
 import io.loperilla.jokeapp.data.network.model.ApiResult
 import io.loperilla.jokeapp.data.network.model.ApiResultError
