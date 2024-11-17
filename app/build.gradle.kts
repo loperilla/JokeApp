@@ -41,8 +41,10 @@ android {
         compose = true
     }
 
-    sourceSets.configureEach {
-        kotlin.srcDir(layout.buildDirectory.files("generated/ksp/$name/kotlin/"))
+    kotlin {
+        sourceSets.configureEach {
+            kotlin.srcDir(layout.buildDirectory.files("generated/ksp/$name/kotlin/"))
+        }
     }
 
     ksp {
