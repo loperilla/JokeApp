@@ -20,7 +20,7 @@ jobs:
         run: ./gradlew jacocoTestReportDebug
 
       - name: Upload Report
-        uses: 'actions/upload-artifact@v2'
+        uses: actions/upload-artifact@v4
         with:
           name: report.xml
           path: ${{ github.workspace }}/build/reports/jacoco/testCoverage/testCoverage.xml
