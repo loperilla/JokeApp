@@ -5,7 +5,9 @@ import io.loperilla.jokeapp.presentation.navigator.Navigator
 import io.loperilla.jokeapp.presentation.screens.jokeform.JokeFormViewModel
 import io.loperilla.jokeapp.presentation.screens.jokeresult.JokeResultViewModel
 import io.loperilla.jokeapp.presentation.screens.welcome.WelcomeViewModel
-import org.koin.core.module.dsl.viewModel
+import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.viewModelOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 /*****
@@ -15,26 +17,13 @@ import org.koin.dsl.module
  * All rights reserved 2024
  */
 val navigatorModule = module {
-    single<Navigator> { DefaultNavigator() }
+    singleOf(::DefaultNavigator).bind(Navigator::class)
 }
 
 val viewModelModule = module {
-    viewModel { WelcomeViewModel(get()) }
-    viewModel {
-        JokeFormViewModel(
-            get(),
-            get(),
-            get(),
-            get()
-        )
-    }
-    viewModel { parameter ->
-        JokeResultViewModel(
-            parameter.get(),
-            get(),
-            get()
-        )
-    }
+    viewModelOf(::WelcomeViewModel)
+    viewModelOf(::JokeFormViewModel)
+    viewModelOf(::JokeResultViewModel)
 }
 
 val presentationModule = listOf(

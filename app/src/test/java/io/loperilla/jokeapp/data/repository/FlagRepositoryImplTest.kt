@@ -4,13 +4,13 @@ import io.loperilla.jokeapp.MainCoroutineExtension
 import io.loperilla.jokeapp.data.local.dao.FlagDao
 import io.loperilla.jokeapp.data.network.api.JokeApi
 import io.loperilla.jokeapp.data.network.model.ApiResult
-import io.loperilla.jokeapp.data.network.model.ApiResultError
 import io.loperilla.jokeapp.domain.model.DomainError
 import io.loperilla.jokeapp.domain.model.DomainResult
 import io.loperilla.jokeapp.domain.model.Flag
 import io.loperilla.jokeapp.domain.repository.FlagRepository
 import io.loperilla.jokeapp.flagApi
 import io.loperilla.jokeapp.flagEntity
+import io.loperilla.jokeapp.networkApiError
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -91,7 +91,7 @@ class FlagRepositoryImplTest {
 
         coEvery {
             api.getFlagsList()
-        } returns ApiResult.Error(ApiResultError.NetworkError(404, "Not Found"))
+        } returns ApiResult.Error(networkApiError)
 
         // ACTION
         val result = flagRepository.getFlag()

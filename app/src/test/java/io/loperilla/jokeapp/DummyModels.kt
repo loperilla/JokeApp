@@ -130,6 +130,7 @@ val languageApi = JokeLanguageApi(
     possibleLanguages = listOf(languageNetworkApi)
 )
 
-val networkApiError = ApiResultError.NetworkError(404, "Not Found")
+val networkApiError = ApiResultError.NetworkError(404, "Not found")
+val unknownApiError = ApiResultError.UnknownError(null)
 val networkDomainError = networkApiError.toDomainError()
-val unknownDomainError = DomainError.UnknownError(Throwable())
+val unknownDomainError = unknownApiError.toDomainError()

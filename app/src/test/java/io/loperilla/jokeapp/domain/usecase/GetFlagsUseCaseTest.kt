@@ -1,11 +1,11 @@
 package io.loperilla.jokeapp.domain.usecase
 
 import io.loperilla.jokeapp.MainCoroutineExtension
-import io.loperilla.jokeapp.domain.model.DomainError
 import io.loperilla.jokeapp.domain.model.DomainResult
 import io.loperilla.jokeapp.domain.repository.FlagRepository
 import io.loperilla.jokeapp.nsfwFlag
 import io.loperilla.jokeapp.politicalFlag
+import io.loperilla.jokeapp.unknownDomainError
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
@@ -49,7 +49,7 @@ class GetFlagsUseCaseTest {
         // GIVEN
         coEvery {
             getFlagsUseCase.invoke()
-        } returns DomainResult.Error(DomainError.UnknownError(Throwable()))
+        } returns DomainResult.Error(unknownDomainError)
 
         // ACTION
         val result = getFlagsUseCase.invoke()
