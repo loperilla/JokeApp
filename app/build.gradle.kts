@@ -41,6 +41,10 @@ android {
         compose = true
     }
 
+    sourceSets.configureEach {
+        kotlin.srcDir(layout.buildDirectory.files("generated/ksp/$name/kotlin/"))
+    }
+
     ksp {
         arg("KOIN_CONFIG_CHECK","true")
         arg("KOIN_USE_COMPOSE_VIEWMODEL","true")
