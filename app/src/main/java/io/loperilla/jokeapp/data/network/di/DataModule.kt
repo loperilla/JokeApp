@@ -16,8 +16,9 @@ import io.ktor.serialization.kotlinx.json.json
 import io.loperilla.jokeapp.data.network.api.JokeApi
 import io.loperilla.jokeapp.data.network.impl.JokeApiImpl
 import io.loperilla.jokeapp.data.network.utils.baseUrl
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
+import org.koin.core.module.dsl.singleOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 /*****
@@ -28,7 +29,6 @@ import org.koin.dsl.module
  */
 
 val networkModule = module {
-    @OptIn(ExperimentalSerializationApi::class)
     single<Json> {
         Json {
             prettyPrint = true
@@ -39,7 +39,6 @@ val networkModule = module {
     }
 
     single<HttpClient> {
-
         HttpClient(OkHttp) {
             install(Logging) {
                 logger = object : Logger {
@@ -78,5 +77,5 @@ val networkModule = module {
         }
     }
 
-    single<JokeApi> { JokeApiImpl(get(), get()) }
+    singleOf(::JokeApiImpl).bind(JokeApi::class)
 }

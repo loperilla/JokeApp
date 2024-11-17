@@ -4,6 +4,7 @@ import io.loperilla.jokeapp.domain.usecase.GetCategoryListUseCase
 import io.loperilla.jokeapp.domain.usecase.GetFlagsUseCase
 import io.loperilla.jokeapp.domain.usecase.GetJokesUseCase
 import io.loperilla.jokeapp.domain.usecase.GetLanguageUseCase
+import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
 /*****
@@ -14,8 +15,8 @@ import org.koin.dsl.module
  */
 
 val useCaseModule = module {
-    factory { GetLanguageUseCase(get()) }
-    factory { GetFlagsUseCase(get()) }
-    factory { GetJokesUseCase(get()) }
-    factory { GetCategoryListUseCase(get()) }
+    factoryOf(::GetLanguageUseCase)
+    factoryOf(::GetFlagsUseCase)
+    factoryOf(::GetJokesUseCase)
+    factoryOf(::GetCategoryListUseCase)
 }

@@ -5,7 +5,6 @@ import io.loperilla.jokeapp.categoryEntity
 import io.loperilla.jokeapp.data.local.dao.CategoryDao
 import io.loperilla.jokeapp.data.network.api.JokeApi
 import io.loperilla.jokeapp.data.network.model.ApiResult
-import io.loperilla.jokeapp.data.network.model.ApiResultError
 import io.loperilla.jokeapp.data.network.model.CategoryApi
 import io.loperilla.jokeapp.domain.model.Category
 import io.loperilla.jokeapp.domain.model.DomainError
@@ -13,6 +12,7 @@ import io.loperilla.jokeapp.domain.model.DomainResult
 import io.loperilla.jokeapp.domain.repository.CategoryRepository
 import io.loperilla.jokeapp.miscellaneousCategory
 import io.loperilla.jokeapp.miscellaneousCategoryAliasApi
+import io.loperilla.jokeapp.networkApiError
 import io.loperilla.jokeapp.programmingCategory
 import io.loperilla.jokeapp.programmingCategoryAliasApi
 import io.mockk.coEvery
@@ -101,7 +101,7 @@ class CategoryRepositoryImplTest {
 
         coEvery {
             api.getCategoriesList()
-        } returns ApiResult.Error(ApiResultError.NetworkError(404, "Not Found"))
+        } returns ApiResult.Error(networkApiError)
 
         // ACTION
         val result = categoryRepository.getCategories()

@@ -4,13 +4,13 @@ import io.loperilla.jokeapp.MainCoroutineExtension
 import io.loperilla.jokeapp.data.local.dao.LanguageDao
 import io.loperilla.jokeapp.data.network.api.JokeApi
 import io.loperilla.jokeapp.data.network.model.ApiResult
-import io.loperilla.jokeapp.data.network.model.ApiResultError
 import io.loperilla.jokeapp.domain.model.DomainError
 import io.loperilla.jokeapp.domain.model.DomainResult
 import io.loperilla.jokeapp.domain.model.Language
 import io.loperilla.jokeapp.domain.repository.LanguageRepository
 import io.loperilla.jokeapp.languageApi
 import io.loperilla.jokeapp.languageEntity
+import io.loperilla.jokeapp.networkApiError
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -90,7 +90,7 @@ class LanguageRepositoryImplTest {
 
         coEvery {
             api.getLanguageList()
-        } returns ApiResult.Error(ApiResultError.NetworkError(404, "Not Found"))
+        } returns ApiResult.Error(networkApiError)
 
         // ACTION
         val result = flagRepository.getLanguages()

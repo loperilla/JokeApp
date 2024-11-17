@@ -8,6 +8,8 @@ import io.loperilla.jokeapp.domain.repository.CategoryRepository
 import io.loperilla.jokeapp.domain.repository.FlagRepository
 import io.loperilla.jokeapp.domain.repository.JokeRepository
 import io.loperilla.jokeapp.domain.repository.LanguageRepository
+import org.koin.core.module.dsl.factoryOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 /*****
@@ -18,8 +20,8 @@ import org.koin.dsl.module
  */
 
 val repositoryModule = module {
-    factory<LanguageRepository> { LanguageRepositoryImpl(get(), get()) }
-    factory<FlagRepository> { FlagRepositoryImpl(get(), get()) }
-    factory<CategoryRepository> { CategoryRepositoryImpl(get(), get()) }
-    factory<JokeRepository> { JokeRepositoryImpl(get()) }
+    factoryOf(::LanguageRepositoryImpl).bind(LanguageRepository::class)
+    factoryOf(::FlagRepositoryImpl).bind(FlagRepository::class)
+    factoryOf(::CategoryRepositoryImpl).bind(CategoryRepository::class)
+    factoryOf(::JokeRepositoryImpl).bind(JokeRepository::class)
 }

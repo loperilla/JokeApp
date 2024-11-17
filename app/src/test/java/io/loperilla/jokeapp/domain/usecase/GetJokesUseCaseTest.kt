@@ -1,11 +1,11 @@
 package io.loperilla.jokeapp.domain.usecase
 
 import io.loperilla.jokeapp.MainCoroutineExtension
-import io.loperilla.jokeapp.domain.model.DomainError
 import io.loperilla.jokeapp.domain.model.DomainResult
 import io.loperilla.jokeapp.domain.repository.JokeRepository
 import io.loperilla.jokeapp.formData
 import io.loperilla.jokeapp.jokeDummy
+import io.loperilla.jokeapp.unknownDomainError
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
@@ -48,7 +48,7 @@ class GetJokesUseCaseTest {
         // GIVEN
         coEvery {
             getJokesUseCase.invoke(formData)
-        } returns DomainResult.Error(DomainError.UnknownError(Throwable()))
+        } returns DomainResult.Error(unknownDomainError)
 
         // ACTION
         val result = getJokesUseCase.invoke(formData)
