@@ -13,15 +13,31 @@ jobs:
         with:
           distribution: zulu
           java-version: 17
-      - name: Run Coverage
-        run: |
-          chmod +x gradlew
-          ./gradlew jacocoTestReport
-      - name: Add coverage to PR
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Run Module Coverage
+        run: ./gradlew debugCoverage
+
+      - name: Jacoco Report to PR
         id: jacoco
-        uses: madrapps/jacoco-report@v1.3
+        uses: madrapps/jacoco-report@more-events
         with:
-          paths: ${{ github.workspace }}/build/reports/jacoco/testCoverage/testCoverage.xml
+          paths: |
+            ${{ github.workspace }}/**/build/reports/jacoco/**/**.xml,
+            ${{ github.workspace }}/**/build/reports/jacoco/**/**.xml
           token: ${{ secrets.GITHUB_TOKEN }}
-          min-coverage-overall: 40
-          min-coverage-changed-files: 60
+          min-coverage-overall: 45
+          min-coverage-changed-files: 84
+          title: '# :lobster: `Coverage Report`'
+          update-comment: true
+          comment-type: 'both'
+          pass-emoji: ':green_circle:'
+          fail-emoji: ':red_circle:'
+          continue-on-error: true
+          debug-mode: true
+
+      - name: Get the Coverage info
+        run: |
+          echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
+          echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
