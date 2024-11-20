@@ -31,11 +31,6 @@ jobs:
           min-coverage-changed-files: 84
           title: '# 🦀 `Coverage Report`'
           update-comment: true
-          comment-type: 'both'
-          pass-emoji: "✅"
-          fail-emoji: "❌"
-          continue-on-error: true
-          debug-mode: true
 
       - name: Get the Coverage info
         run: |
