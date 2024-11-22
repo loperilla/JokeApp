@@ -17,27 +17,23 @@ jobs:
         run: chmod +x gradlew
 
       - name: Run Coverage
-        run: ./gradlew jacocoTestReportDebug
+        run: ./gradlew allDebugCoverage
 
       - name: Jacoco Report to PR
         id: jacoco
-        uses: madrapps/jacoco-report@v1.7.1
+        uses: ./
         with:
-          paths: |
-            ${{ github.workspace }}/**/build/reports/jacoco/**/**.xml,
-            ${{ github.workspace }}/**/build/reports/jacoco/**/**.xml
-          token: ${{ secrets.GITHUB_TOKEN }}
-          min-coverage-overall: 45
-          min-coverage-changed-files: 84
-          title: '# :lobster: `Coverage Report`'
-          update-comment: true
-          comment-type: 'both'
-          pass-emoji: ':green_circle:'
-          fail-emoji: ':red_circle:'
-          continue-on-error: true
-          debug-mode: true
-
-      - name: Get the Coverage info
+          report-paths: ${{ github.workspace }}/__tests__/__fixtures__/input/report.xml
+          github-token: ${{ secrets.GH_TOKEN }}
+          pull-request-title: 'JaCoCo Report 🤖'
+          delete-previous-comment: true
+          min-overall-instructions-coverage: 50
+          min-overall-branch-coverage: 50
+          min-modified-files-instructions-coverage: 70
+          min-modified-files-branch-coverage: 70
+      - name: Get the Coverage Info
         run: |
-          echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
-          echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
+          echo "Overall instructions coverage ${{ steps.jacoco.outputs.overall-instructions-coverage }}"
+          echo "Overall branch coverage ${{ steps.jacoco.outputs.overall-branch-coverage }}"
+          echo "Overall instructions coverage ${{ steps.jacoco.outputs.modified-files-instructions-coverage }}"
+          echo "Overall branch coverage ${{ steps.jacoco.outputs.modified-files-branch-coverage }}"

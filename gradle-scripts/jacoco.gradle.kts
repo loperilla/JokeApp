@@ -1,6 +1,6 @@
 
 apply(plugin = "jacoco")
-val jacocoVersion = "0.8.8"
+val jacocoVersion = "0.8.10"
 
 val coverageExcludes = listOf(
     // Data binding
