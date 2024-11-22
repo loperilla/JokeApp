@@ -21,7 +21,7 @@ jobs:
 
       - name: Jacoco Report to PR
         id: jacoco
-        uses: ./
+        uses: madrapps/jacoco-report@v1.7.1
         with:
           report-paths: ${{ github.workspace }}/__tests__/__fixtures__/input/report.xml
           github-token: ${{ secrets.GH_TOKEN }}
