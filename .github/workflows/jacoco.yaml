@@ -19,21 +19,13 @@ jobs:
       - name: Run Coverage
         run: ./gradlew allDebugCoverage
 
-      - name: Jacoco Report to PR
+      - name: Add coverage to PR
         id: jacoco
-        uses: madrapps/jacoco-report@v1.7.1
+        uses: juliusiglesia/jacoco-report-publisher@0.0.2
         with:
-          report-paths: ${{ github.workspace }}/__tests__/__fixtures__/input/report.xml
-          github-token: ${{ secrets.GH_TOKEN }}
-          pull-request-title: 'JaCoCo Report 🤖'
-          delete-previous-comment: true
+          report-paths: ${{ github.workspace }}/build/reports/jacoco/test/jacocoTestReport.xml
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           min-overall-instructions-coverage: 50
           min-overall-branch-coverage: 50
           min-modified-files-instructions-coverage: 70
           min-modified-files-branch-coverage: 70
-      - name: Get the Coverage Info
-        run: |
-          echo "Overall instructions coverage ${{ steps.jacoco.outputs.overall-instructions-coverage }}"
-          echo "Overall branch coverage ${{ steps.jacoco.outputs.overall-branch-coverage }}"
-          echo "Overall instructions coverage ${{ steps.jacoco.outputs.modified-files-instructions-coverage }}"
-          echo "Overall branch coverage ${{ steps.jacoco.outputs.modified-files-branch-coverage }}"
